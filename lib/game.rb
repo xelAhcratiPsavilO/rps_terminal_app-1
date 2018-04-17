@@ -1,8 +1,12 @@
 class Game
 
-  def initialize(std_out = $stdout, std_in = $stdin)
+
+  # Dependency Injection
+  def initialize(std_out, std_in, weapon_selector)
     @std_out = std_out
     @std_in = std_in
+    @weapon_selector = weapon_selector
+    @choices = Hash["r" => :rock, "p" => :paper, "s" => :scissors]
   end
 
   def prompt
@@ -10,7 +14,12 @@ class Game
   end
 
   def select
-    @std_in.read
+    input = @std_in.read
+    @choices[input];
+  end
+
+  def choose
+    @weapon_selector.select
   end
 
 end
