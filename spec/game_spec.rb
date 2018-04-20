@@ -2,16 +2,14 @@ require "game"
 
 describe Game do
 
-  subject { Game.new(stdout_mock, stdin_mock, selector_mock)}
+  subject { Game.new(stdout_mock, stdin_mock)}
   let(:stdout_mock) { double() }
   let(:stdin_mock) { double() }
-  let(:selector_mock) { double() }
 
   context "#prompt" do
     it "It prompts the user to select a weapon" do
       # arrange/assert
       allow(stdout_mock).to receive(:write) { "Choose your weapon: r/p/s\n" }
-
       # act
       subject.prompt
     end
@@ -21,18 +19,30 @@ describe Game do
     it "It takes input from the user" do
       # arrange
       allow(stdin_mock).to receive(:read).and_return "r"
-      # act
-      expect(subject.select).to eq(:rock)
+      # assert
+      expect(subject.select).to eq("r")
     end
   end
 
-  context "#choose" do
-    it "It selects a random weapom for the computer" do
-      # arrange
-      allow(selector_mock).to receive(:select).and_return :paper
+  context "#pc_move" do
+    # arrange
+    before { srand(0) }
+    it "It receives a random choice from the computer" do
+      # assert
+      expect(subject.pc_move).to eq('r')
+    end
+  end
 
-      # act/assert
-      expect(subject.choose).to eq(:paper)
+  context "#tell_winner" do
+    # arrange
+      before { srand(0) }
+    it "It tells who wins" do
+      # act
+      allow(stdin_mock).to receive(:read).and_return "r"
+      subject.select
+      subject.pc_move
+      # assert
+      expect(subject.tell_winner).to eq('Draw')
     end
   end
 

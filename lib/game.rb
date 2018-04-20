@@ -1,12 +1,8 @@
 class Game
 
-
-  # Dependency Injection
-  def initialize(std_out, std_in, weapon_selector)
+  def initialize(std_out = $stdout, std_in = $stdin)
     @std_out = std_out
     @std_in = std_in
-    @weapon_selector = weapon_selector
-    @choices = Hash["r" => :rock, "p" => :paper, "s" => :scissors]
   end
 
   def prompt
@@ -14,12 +10,39 @@ class Game
   end
 
   def select
-    input = @std_in.read
-    @choices[input];
+    @human = @std_in.read
   end
 
-  def choose
-    @weapon_selector.select
+  def pc_move
+    random_choice = rand(2)
+    if random_choice == 0
+      @pc = 'r'
+    elsif random_choice == 1
+      @pc = 'p'
+    else
+      @pc = 's'
+    end
+    return @pc
+  end
+
+  def tell_winner
+    print @human
+    print @pc
+    if @human == @pc
+      p 'Draw'
+    elsif @human == 'r' && @pc == 'p'
+      p 'You lost'
+    elsif @human == 'r' && @pc == 's'
+      p 'You won'
+    elsif @human == 'p' && @pc == 's'
+      p 'You lost'
+    elsif @human == 'p' && @pc == 'r'
+      p 'You won'
+    elsif @human == 's' && @pc == 'r'
+      p 'You lost'
+    elsif @human == 's' && @pc == 'p'
+      p 'You won'
+    end
   end
 
 end
