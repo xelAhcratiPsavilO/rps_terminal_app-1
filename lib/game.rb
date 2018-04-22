@@ -9,12 +9,12 @@ class Game
     @std_out.write("Choose your weapon: r/p/s\n")
   end
 
-  def select
+  def get_input
     @human = @std_in.read
   end
 
   def pc_move
-    random_choice = rand(2)
+    random_choice = rand(3)
     if random_choice == 0
       @pc = 'r'
     elsif random_choice == 1

@@ -15,12 +15,12 @@ describe Game do
     end
   end
 
-  context "#select" do
+  context "#get_input" do
     it "It takes input from the user" do
       # arrange
       allow(stdin_mock).to receive(:read).and_return "r"
       # assert
-      expect(subject.select).to eq("r")
+      expect(subject.get_input).to eq("r")
     end
   end
 
@@ -35,14 +35,14 @@ describe Game do
 
   context "#tell_winner" do
     # arrange
-      before { srand(0) }
+      before { srand(1) }
     it "It tells who wins" do
       # act
       allow(stdin_mock).to receive(:read).and_return "r"
-      subject.select
+      subject.get_input
       subject.pc_move
       # assert
-      expect(subject.tell_winner).to eq('Draw')
+      expect(subject.tell_winner).to eq('You lost')
     end
   end
 
